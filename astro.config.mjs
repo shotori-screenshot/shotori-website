@@ -1,0 +1,46 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import starlight from '@astrojs/starlight';
+
+// https://astro.build/config
+export default defineConfig({
+	// Deployed on Vercel at the project root; update `site` if the Vercel
+	// project name or custom domain changes (it feeds the sitemap).
+	site: 'https://shotori.vercel.app',
+	integrations: [
+		starlight({
+			title: 'Shotori',
+			description:
+				'Wayland-native screenshot tool — select, annotate, pin, long-capture scrolling pages, and read text with on-device OCR.',
+			logo: { alt: 'Shotori', src: './src/assets/shotori.svg' },
+			social: [
+				{
+					icon: 'github',
+					label: 'GitHub',
+					href: 'https://github.com/shotori-screenshot/shotori',
+				},
+			],
+			locales: {
+				// English is the root locale: content lives at the docs root and
+				// is served without a URL prefix. `defaultLocale: 'en'` would
+				// instead expect content under docs/en/ with an /en/ prefix.
+				root: { label: 'English', lang: 'en' },
+				'zh-cn': {
+					label: '简体中文',
+					lang: 'zh-CN',
+					// Sidebar labels are shared across locales; map them per locale.
+					translations: {
+						'Getting Started': '快速开始',
+					},
+				},
+			},
+			defaultLocale: 'root',
+			sidebar: [
+				{
+					label: 'Getting Started',
+					items: [{ autogenerate: { directory: 'getting-started' } }],
+				},
+			],
+		}),
+	],
+});
