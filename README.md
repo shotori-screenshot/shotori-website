@@ -34,6 +34,8 @@ main repo's `assets/` — re-copy them when the originals change.
 ## Deployment
 
 Deployed on [Vercel](https://vercel.com) (static output, zero config —
-Vercel auto-detects Astro and pnpm). `site` in `astro.config.mjs` must
-match the final domain: update it when the Vercel project is renamed or a
-custom domain is attached, then redeploy.
+Vercel auto-detects Astro and pnpm) at
+[shotori.mengh04.top](https://shotori.mengh04.top). The domain is a
+subdomain of an Aliyun-managed zone, pointed at Vercel with a CNAME
+record (`shotori` → `cname.vercel-dns.com`). If the domain ever changes,
+update `site` in `astro.config.mjs` to match, then redeploy.

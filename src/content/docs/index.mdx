@@ -2,58 +2,115 @@
 title: Shotori
 description: A Wayland-native screenshot tool — select, annotate, pin, long-capture scrolling pages, and read text with on-device OCR.
 template: splash
-hero:
-  tagline: Freeze the screen, drag a selection — and it flows to the clipboard, a file, plain text, a pinned floating copy, or one long stitched image. Everything runs on your machine.
-  image:
-    file: ../../assets/shotori.svg
-  actions:
-    - text: Get Started
-      # Relative on purpose: Starlight does not prefix hero links with any
-      # deployment base, so root-relative hrefs 404 under a subpath.
-      link: getting-started/installation/
-      icon: right-arrow
-      variant: primary
-    - text: View on GitHub
-      link: https://github.com/shotori-screenshot/shotori
-      icon: external
-      variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+import LandingScripts from '../../components/landing-scripts.astro';
 
-![Shotori — region selection with two pins floating over the desktop](../../assets/selection-and-pins.png)
+<main class="landing">
+	<section class="hero">
+		<img class="hero-logo" src="/shotori.svg" alt="Shotori logo" width="96" height="96" />
+		<h1>The screenshot tool <span class="grad">Wayland deserved</span></h1>
+		<p class="tagline"> Freeze the screen, drag a selection — it flows to the clipboard, a file, plain text, a pinned floating copy, or one long stitched image. Everything runs on your machine. </p>
+		<div class="cta">
+			<a class="primary" href="getting-started/installation/">Get Started</a>
+			<a class="ghost" href="https://github.com/shotori-screenshot/shotori">View on GitHub</a>
+		</div>
+		<div class="install">
+			<span class="p">$</span>
+			<code>cargo install shotori</code>
+			<button class="copy" type="button" data-label="Copy" data-done="Copied!">Copy</button>
+		</div>
+	</section>
 
-## Highlights
+	<section class="sel-stage" aria-hidden="true">
+		<div class="sel-desk">
+			<div class="sel-frame">
+				<i class="c tl"></i>
+				<i class="c tr"></i>
+				<i class="c bl"></i>
+				<i class="c br"></i>
+				<span class="sel-badge">1280 × 720</span>
+				<div class="sel-toolbar">
+					<i></i><i></i><i></i><i></i><i></i>
+				</div>
+			</div>
+		</div>
+	</section>
 
-<CardGrid stagger>
-	<Card title="Wayland-native" icon="mdi:monitor">
-		Built on <code>wlr-screencopy</code> and layer-shell; at home on niri, sway,
-		Hyprland and other wlroots-adjacent compositors. Mixed-scale, rotated
-		multi-monitor setups are handled — selections may span screens.
-	</Card>
-	<Card title="Private OCR" icon="mdi:text-recognition">
-		Text recognition runs on-device. After a one-time ~31 MB model download,
-		nothing ever leaves your machine.
-	</Card>
-	<Card title="Long screenshots" icon="mdi:scroll">
-		Frame the scrolling region, scroll it yourself, and watch the stitched page
-		grow in a live side preview. If part of the selection doesn't scroll along,
-		the session stops safely and keeps what it captured.
-	</Card>
-	<Card title="Pin" icon="mdi:pin">
-		Crop a selection into an always-on-top floating image that outlives the
-		screenshot UI; drag it across screens, scroll to zoom.
-	</Card>
-	<Card title="A full annotation kit" icon="mdi:draw">
-		Shapes, arrows, numbered steps, freehand, highlighter, mosaic/blur and text —
-		all editable and undoable after the fact.
-	</Card>
-</CardGrid>
+	<section>
+		<div class="section-inner reveal">
+			<h2 class="section-title">At home on your desktop</h2>
+			<p class="section-sub"> Region selection with two pins floating over the desktop — mixed scales, rotated outputs and selections spanning screens are handled. </p>
+			<div class="shot-window">
+				<div class="shot-titlebar">
+					<i></i><i></i><i></i>
+					<span class="name">shotori — selection &amp; pins</span>
+				</div>
+				<img src="/selection-and-pins.png" alt="Shotori — region selection with two pins floating over the desktop" loading="lazy" />
+			</div>
+		</div>
+	</section>
 
-## Status
+	<section>
+		<div class="section-inner">
+			<h2 class="section-title reveal">Everything a screenshot flow needs</h2>
+			<p class="section-sub reveal"> From the selection to wherever it needs to go — all local, all editable after the fact. </p>
+			<div class="feature-grid">
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:monitor" /></span>
+					<h3>Wayland-native</h3>
+					<p> Built on <code>wlr-screencopy</code> and layer-shell; at home on niri, sway, Hyprland and other wlroots-adjacent compositors. </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:text-recognition" /></span>
+					<h3>Private OCR</h3>
+					<p> Text recognition runs on-device; after a one-time model download, nothing ever leaves your machine. </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:scroll" /></span>
+					<h3>Long screenshots</h3>
+					<p> Scroll it yourself and watch the stitched page grow in a live side preview — fixed bars that break the flow stop it safely. </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:pin" /></span>
+					<h3>Pin</h3>
+					<p> Crop a selection into an always-on-top floating image; drag it across screens, scroll to zoom. </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:draw" /></span>
+					<h3>Full annotation kit</h3>
+					<p> Shapes, arrows, numbered steps, freehand, highlighter, mosaic/blur and text — all editable and undoable. </p>
+				</div>
+			</div>
+		</div>
+	</section>
 
-Shotori is in active, pre-1.0 development. The core flows — capture, annotate,
-copy, save, OCR, pin, long screenshots — are in daily use, but the CLI,
-keybindings and theme format may still change between releases. Tested on niri
-and Hyprland; reports from other compositors are
-[welcome](https://github.com/shotori-screenshot/shotori/issues).
+	<section class="stats">
+		<div class="section-inner">
+			<div class="stat reveal">
+				<div class="n">~31 MB</div>
+				<div class="l">OCR model, downloaded once</div>
+			</div>
+			<div class="stat reveal">
+				<div class="n">0</div>
+				<div class="l">bytes leaving your machine</div>
+			</div>
+			<div class="stat reveal">
+				<div class="n">100%</div>
+				<div class="l">local, private by default</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="endcta">
+		<h2>Ready when you are.</h2>
+		<div class="install">
+			<span class="p">$</span>
+			<code>cargo install shotori</code>
+			<button class="copy" type="button" data-label="Copy" data-done="Copied!">Copy</button>
+		</div>
+	</section>
+</main>
+
+<LandingScripts />

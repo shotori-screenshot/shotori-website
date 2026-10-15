@@ -33,9 +33,9 @@ Manage the background server with `astro dev stop`, `astro dev status`, `astro d
   `assets/` directory — re-copy rather than redesign when they change.
 - Card icons use Iconify full names (`mdi:...`), resolved at build time; an
   unknown icon name is a build-time error, not a runtime one.
-- `site` in `astro.config.mjs` must match the deployed domain (Vercel at
-  the project root); update it when the Vercel project is renamed or a
-  custom domain is attached.
+- `site` in `astro.config.mjs` must match the deployed domain — currently
+  `https://shotori.mengh04.top` (Vercel + Aliyun DNS); update it whenever
+  the domain in the Vercel project changes.
 
 ## Documentation
 

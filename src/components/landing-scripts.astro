@@ -1,0 +1,27 @@
+---
+// Inline behaviours for the landing page: one-click copy for install
+// commands and the scroll-reveal IntersectionObserver. Deliberately tiny
+// and framework-free — the landing page ships zero component JS.
+---
+
+<script is:inline>
+	// Entrance animations are pure CSS (see custom.css) so no JS is needed
+	// for the landing page; this script only handles install-command copy.
+	document.addEventListener('click', async (e) => {
+		const btn = e.target.closest('.landing .copy');
+		if (!btn) return;
+		const bar = btn.closest('.install');
+		const cmd = bar ? bar.querySelector('code').textContent : '';
+		try {
+			await navigator.clipboard.writeText(cmd);
+		} catch {
+			/* clipboard may be blocked; still confirm so it never feels dead */
+		}
+		const old = btn.getAttribute('data-label');
+		btn.textContent = btn.getAttribute('data-done');
+		setTimeout(() => {
+			btn.textContent = old;
+		}, 1500);
+	});
+</script>
+

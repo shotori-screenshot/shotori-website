@@ -4,15 +4,17 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	// Deployed on Vercel at the project root; update `site` if the Vercel
-	// project name or custom domain changes (it feeds the sitemap).
-	site: 'https://shotori.vercel.app',
+	// Deployed on Vercel at https://shotori.mengh04.top (Aliyun DNS, CNAME to
+	// cname.vercel-dns.com); `site` feeds the sitemap and canonical URLs, so
+	// keep it in sync with the domain configured in the Vercel project.
+	site: 'https://shotori.mengh04.top',
 	integrations: [
 		starlight({
 			title: 'Shotori',
 			description:
 				'Wayland-native screenshot tool — select, annotate, pin, long-capture scrolling pages, and read text with on-device OCR.',
 			logo: { alt: 'Shotori', src: './src/assets/shotori.svg' },
+			customCss: ['./src/styles/custom.css'],
 			social: [
 				{
 					icon: 'github',

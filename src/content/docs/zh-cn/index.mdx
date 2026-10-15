@@ -2,51 +2,115 @@
 title: Shotori
 description: Wayland 原生截图工具——选区、标注、贴图、长截图，需要文字时本地 OCR。
 template: splash
-hero:
-  tagline: 冻结屏幕、拖框选区——然后复制、保存、取字、贴图，或者把滚动内容拼成一张长图。一切都在本机完成。
-  image:
-    file: ../../../assets/shotori.svg
-  actions:
-    - text: 快速开始
-      # Relative on purpose: Starlight does not prefix hero links with any
-      # deployment base, so root-relative hrefs 404 under a subpath.
-      link: getting-started/installation/
-      icon: right-arrow
-      variant: primary
-    - text: 在 GitHub 上查看
-      link: https://github.com/shotori-screenshot/shotori
-      icon: external
-      variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+import LandingScripts from '../../../components/landing-scripts.astro';
 
-![Shotori——选区与两张贴图悬浮在桌面上](../../../assets/selection-and-pins.png)
+<main class="landing">
+	<section class="hero">
+		<img class="hero-logo" src="/shotori.svg" alt="Shotori 标志" width="96" height="96" />
+		<h1>Wayland 值得拥有的<span class="grad">截图工具</span></h1>
+		<p class="tagline"> 冻结屏幕、拖框选区——然后复制、保存、取字、贴图，或者把滚动内容拼成一张长图。 一切都在本机完成。 </p>
+		<div class="cta">
+			<a class="primary" href="getting-started/installation/">快速开始</a>
+			<a class="ghost" href="https://github.com/shotori-screenshot/shotori">在 GitHub 上查看</a>
+		</div>
+		<div class="install">
+			<span class="p">$</span>
+			<code>cargo install shotori</code>
+			<button class="copy" type="button" data-label="复制" data-done="已复制">复制</button>
+		</div>
+	</section>
 
-## 功能亮点
+	<section class="sel-stage" aria-hidden="true">
+		<div class="sel-desk">
+			<div class="sel-frame">
+				<i class="c tl"></i>
+				<i class="c tr"></i>
+				<i class="c bl"></i>
+				<i class="c br"></i>
+				<span class="sel-badge">1280 × 720</span>
+				<div class="sel-toolbar">
+					<i></i><i></i><i></i><i></i><i></i>
+				</div>
+			</div>
+		</div>
+	</section>
 
-<CardGrid stagger>
-	<Card title="Wayland 原生" icon="mdi:monitor">
-		基于 <code>wlr-screencopy</code> 与 layer-shell 构建，在 niri、sway、Hyprland
-		等 wlroots 系合成器上如鱼得水。混合缩放、旋转输出的多显示器环境都能正确处理，选区可以跨屏。
-	</Card>
-	<Card title="本地 OCR" icon="mdi:text-recognition">
-		文字识别在本机运行，首次使用下载约 31 MB 模型，之后任何数据都不会离开你的电脑。
-	</Card>
-	<Card title="长截图" icon="mdi:scroll">
-		框住滚动区域，自己滚动，看着拼接结果在侧边实时预览中生长。若选区里有不随内容滚动的部分，会安全停止并保留已捕获的内容。
-	</Card>
-	<Card title="贴图" icon="mdi:pin">
-		把选区钉成置顶浮动小窗，截图界面关闭后依然保留——可跨屏拖动、滚轮缩放。
-	</Card>
-	<Card title="完整标注工具" icon="mdi:draw">
-		矩形、箭头、序号、画笔、荧光笔、马赛克和文字——画完可继续编辑与撤销。
-	</Card>
-</CardGrid>
+	<section>
+		<div class="section-inner reveal">
+			<h2 class="section-title">为真实桌面而生</h2>
+			<p class="section-sub"> 选区与两张贴图悬浮在桌面之上——混合缩放、旋转输出、跨屏选区都能正确处理。 </p>
+			<div class="shot-window">
+				<div class="shot-titlebar">
+					<i></i><i></i><i></i>
+					<span class="name">shotori — 选区与贴图</span>
+				</div>
+				<img src="/selection-and-pins.png" alt="Shotori——选区与两张贴图悬浮在桌面上" loading="lazy" />
+			</div>
+		</div>
+	</section>
 
-## 状态
+	<section>
+		<div class="section-inner">
+			<h2 class="section-title reveal">截图流程需要的一切</h2>
+			<p class="section-sub reveal"> 从选区到它要去的地方——全部本地运行，画完可继续编辑与撤销。 </p>
+			<div class="feature-grid">
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:monitor" /></span>
+					<h3>Wayland 原生</h3>
+					<p> 基于 <code>wlr-screencopy</code> 与 layer-shell 构建，在 niri、sway、Hyprland 等 wlroots 系合成器上如鱼得水。 </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:text-recognition" /></span>
+					<h3>本地 OCR</h3>
+					<p> 文字识别在本机运行，首次使用下载一次模型，之后任何数据都不会离开你的电脑。 </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:scroll" /></span>
+					<h3>长截图</h3>
+					<p> 自己滚动，看拼接结果在侧边实时预览中生长；固定栏等破坏拼接的内容会安全停止。 </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:pin" /></span>
+					<h3>贴图</h3>
+					<p> 把选区钉成置顶浮动小窗，截图界面关闭后依然保留——可跨屏拖动、滚轮缩放。 </p>
+				</div>
+				<div class="feature-card reveal">
+					<span class="ic"><Icon name="mdi:draw" /></span>
+					<h3>完整标注工具</h3>
+					<p> 矩形、箭头、序号、画笔、荧光笔、马赛克和文字——画完可继续编辑与撤销。 </p>
+				</div>
+			</div>
+		</div>
+	</section>
 
-Shotori 处于早期开发阶段（pre-1.0）。截图、标注、复制、保存、OCR、贴图、
-长截图这些核心流程已可日常使用，但命令行参数、键位与主题格式尚未稳定。
-目前只在 niri 和 Hyprland 上测试过，其他 Wayland
-合成器欢迎大家试用并[反馈](https://github.com/shotori-screenshot/shotori/issues)结果。
+	<section class="stats">
+		<div class="section-inner">
+			<div class="stat reveal">
+				<div class="n">~31 MB</div>
+				<div class="l">OCR 模型，仅首次下载</div>
+			</div>
+			<div class="stat reveal">
+				<div class="n">0</div>
+				<div class="l">离开你电脑的数据</div>
+			</div>
+			<div class="stat reveal">
+				<div class="n">100%</div>
+				<div class="l">本地运行，隐私默认</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="endcta">
+		<h2>随时可用。</h2>
+		<div class="install">
+			<span class="p">$</span>
+			<code>cargo install shotori</code>
+			<button class="copy" type="button" data-label="复制" data-done="已复制">复制</button>
+		</div>
+	</section>
+</main>
+
+<LandingScripts />
