@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import react from '@astrojs/react';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
@@ -44,5 +46,11 @@ export default defineConfig({
 				},
 			],
 		}),
+		react(),
 	],
+	// Tailwind drives only the landing page (see src/styles/landing.css, which
+	// skips preflight on purpose so Starlight's docs styles stay untouched).
+	vite: {
+		plugins: [tailwindcss()],
+	},
 });

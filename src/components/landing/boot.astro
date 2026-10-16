@@ -1,16 +1,18 @@
 ---
-// Inline behaviours for the landing page: one-click copy for install
-// commands and the scroll-reveal IntersectionObserver. Deliberately tiny
-// and framework-free — the landing page ships zero component JS.
+// Landing-page bootstrapper: fonts, the Tailwind-driven stylesheet, and the
+// tiny copy-to-clipboard behaviour. Rendered once from each locale's index.
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import '../../styles/landing.css';
 ---
 
 <script is:inline>
-	// Entrance animations are pure CSS (see custom.css) so no JS is needed
-	// for the landing page; this script only handles install-command copy.
+	// Install-command copy. The landing page ships this one inline script on
+	// purpose — everything else is either static or a hydrated demo island.
 	document.addEventListener('click', async (e) => {
 		const btn = e.target.closest('.landing .copy');
 		if (!btn) return;
-		const bar = btn.closest('.install');
+		const bar = btn.closest('.install-bar');
 		const cmd = bar ? bar.querySelector('code').textContent : '';
 		try {
 			await navigator.clipboard.writeText(cmd);
@@ -24,4 +26,3 @@
 		}, 1500);
 	});
 </script>
-

@@ -1,501 +1,36 @@
 /* ============================================================================
-   Shotori landing page styles.
-   Everything is scoped under `.landing` so the docs pages keep the default
-   Starlight theme. The landing page deliberately ignores the light/dark site
-   theme and is always dark, matching the brand (orange #F66314→#FC791A on
-   #1C2026, straight from the logo).
+   Landing-page ↔ Starlight bridge.
+   The landing page itself is styled by src/styles/landing.css (Tailwind 4,
+   scoped, no preflight). What lives here is only what must fight Starlight's
+   own layout/theme: escaping the content padding, forcing the dark palette
+   while the site theme may be light, and hiding the splash template's
+   duplicate page heading.
    ========================================================================== */
 
+/* Undo Starlight's content padding so landing sections run edge to edge.
+   Measured panel padding: 16px horizontal below 1200px, 24px at ≥75rem
+   (the old blanket -1.5rem over-extended by 8px on narrow screens). */
 .landing {
-	/* Undo Starlight's content padding so sections run edge to edge. */
-	margin: -2.5rem -1.5rem;
-	background: #0c0e12;
-	color: #e7e9ee;
-	font-synthesis: none;
-	-webkit-font-smoothing: antialiased;
+	margin: -2.5rem -1rem;
 	overflow-x: clip;
 }
 
-.landing ::selection {
-	background: rgba(246, 99, 20, 0.4);
-}
-
-/* --- shared: section rhythm ------------------------------------------- */
-
-.landing section {
-	position: relative;
-	padding: 4.5rem 1.5rem;
-}
-
-@media (min-width: 50rem) {
-	.landing section {
-		padding: 5.5rem 2rem;
-	}
+@media (min-width: 75rem) {
 	.landing {
-		margin: -2.5rem -2.5rem;
+		margin: -2.5rem -1.5rem;
 	}
 }
 
-.landing .section-inner {
-	max-width: 68rem;
-	margin-inline: auto;
-}
-
-.landing .section-title {
-	font-size: 1.6rem;
-	font-weight: 700;
-	letter-spacing: -0.01em;
-	text-align: center;
-	margin: 0 0 0.5rem;
-}
-
-.landing .section-sub {
-	text-align: center;
-	color: #9aa1ad;
-	margin: 0 auto 2.5rem;
-	max-width: 40rem;
-}
-
-/* --- hero --------------------------------------------------------------- */
-
-.landing .hero {
-	padding-top: 5.5rem;
-	padding-bottom: 4rem;
-	text-align: center;
-	background:
-		radial-gradient(
-			52rem 26rem at 50% -4rem,
-			rgba(246, 99, 20, 0.16),
-			transparent 70%
-		),
-		#0c0e12;
-}
-
-/* faint grid, fading out towards the bottom of the hero */
-.landing .hero::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	background-image:
-		linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-	background-size: 42px 42px;
-	mask-image: linear-gradient(#000 30%, transparent 90%);
-	pointer-events: none;
-}
-
-.landing .hero-logo {
-	width: 6rem;
-	height: 6rem;
-	margin-bottom: 1.5rem;
-	filter: drop-shadow(0 0 1.75rem rgba(246, 99, 20, 0.45));
-}
-
-.landing .hero h1 {
-	font-size: clamp(2.1rem, 5vw, 3.2rem);
-	font-weight: 800;
-	letter-spacing: -0.02em;
-	line-height: 1.15;
-	margin: 0 auto 1rem;
-	max-width: 46rem;
-}
-
-.landing .hero .grad {
-	background: linear-gradient(100deg, #f66314 10%, #fc7919 55%, #ffb37a 90%);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-}
-
-.landing .hero .tagline {
-	font-size: 1.05rem;
-	color: #a7aeb9;
-	max-width: 40rem;
-	margin: 0 auto 2rem;
-}
-
-.landing .cta {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.75rem;
-	justify-content: center;
-	margin-bottom: 1.75rem;
-}
-
-.landing .cta a {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	border-radius: 999px;
-	padding: 0.7rem 1.5rem;
-	font-weight: 600;
-	font-size: 0.95rem;
-	text-decoration: none;
-	transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-}
-
-.landing .cta .primary {
-	color: #14100c;
-	background: linear-gradient(135deg, #f66314, #fc791a);
-	box-shadow: 0 8px 24px -8px rgba(246, 99, 20, 0.55);
-}
-
-.landing .cta .primary:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 12px 30px -8px rgba(246, 99, 20, 0.7);
-}
-
-.landing .cta .ghost {
-	color: #e7e9ee;
-	border: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.landing .cta .ghost:hover {
-	border-color: rgba(246, 99, 20, 0.65);
-	transform: translateY(-2px);
-}
-
-/* --- install command bar ------------------------------------------------ */
-
-.landing .install {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.75rem;
-	background: rgba(255, 255, 255, 0.04);
-	border: 1px solid rgba(255, 255, 255, 0.09);
-	border-radius: 0.75rem;
-	padding: 0.65rem 0.9rem 0.65rem 1.1rem;
-	font-family: var(--sl-font-mono);
-	font-size: 0.9rem;
-}
-
-.landing .install .p {
-	color: #f66314;
-	user-select: none;
-}
-
-.landing .install code {
-	color: #f5d9c6;
-	background: none;
-	border: none;
-	padding: 0;
-	font-size: inherit;
-}
-
-.landing .install .copy {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.35rem;
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	background: rgba(255, 255, 255, 0.05);
-	color: #c7ccd4;
-	border-radius: 0.5rem;
-	padding: 0.3rem 0.6rem;
-	font-size: 0.78rem;
-	font-family: inherit;
-	cursor: pointer;
-	transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.landing .install .copy:hover {
-	border-color: rgba(246, 99, 20, 0.6);
-	color: #ffab76;
-}
-
-/* --- selection demo ----------------------------------------------------- */
-/* Signature visual: a selection rectangle that drags itself open, shows a
-   size badge, then pops the action toolbar — the screenshot-tool gesture
-   itself, looping forever. */
-
-.landing .sel-stage {
-	padding-top: 1rem;
-	padding-bottom: 5rem;
-}
-
-.landing .sel-desk {
-	position: relative;
-	max-width: 54rem;
-	margin-inline: auto;
-	aspect-ratio: 21 / 9;
-	border-radius: 1rem;
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	background:
-		radial-gradient(60% 120% at 50% 0%, rgba(246, 99, 20, 0.07), transparent),
-		#11141a;
-	overflow: hidden;
-	box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
-}
-
-.landing .sel-desk::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	background-image:
-		linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-	background-size: 36px 36px;
-}
-
-.landing .sel-frame {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	width: 52%;
-	height: 56%;
-	transform: translate(-50%, -50%);
-	border: 1.5px dashed rgba(252, 121, 25, 0.9);
-	background: rgba(246, 99, 20, 0.05);
-	border-radius: 2px;
-	/* Breathing glow only: every frame is fully visible. Entrance/scale
-	   animations get throttled by Chromium for off-viewport elements, which
-	   froze them mid-flight in screenshots and prerenders. */
-	animation: sel-breathe 3s ease-in-out infinite;
-}
-
-.landing .sel-frame .c {
-	position: absolute;
-	width: 1.15rem;
-	height: 1.15rem;
-	border: 2.5px solid #fc7919;
-	border-radius: 2px;
-}
-
-.landing .sel-frame .c.tl { left: -3px; top: -3px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }
-.landing .sel-frame .c.tr { right: -3px; top: -3px; border-left: none; border-bottom: none; border-top-right-radius: 6px; }
-.landing .sel-frame .c.bl { left: -3px; bottom: -3px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }
-.landing .sel-frame .c.br { right: -3px; bottom: -3px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
-
-.landing .sel-badge {
-	position: absolute;
-	top: -2rem;
-	left: 50%;
-	transform: translateX(-50%);
-	font-family: var(--sl-font-mono);
-	font-size: 0.8rem;
-	color: #ffcfae;
-	background: rgba(246, 99, 20, 0.16);
-	border: 1px solid rgba(252, 121, 25, 0.4);
-	border-radius: 0.4rem;
-	padding: 0.15rem 0.55rem;
-	white-space: nowrap;
-	animation: badge-float 3s ease-in-out infinite;
-}
-
-.landing .sel-toolbar {
-	position: absolute;
-	bottom: -3.4rem;
-	left: 50%;
-	transform: translateX(-50%);
-	display: flex;
-	gap: 0.5rem;
-	background: #171b22;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 0.7rem;
-	padding: 0.5rem 0.7rem;
-	box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7);
-}
-
-.landing .sel-toolbar i {
-	display: block;
-	width: 1.5rem;
-	height: 1.5rem;
-	border-radius: 0.4rem;
-	background: rgba(255, 255, 255, 0.08);
-}
-
-.landing .sel-toolbar i:first-child {
-	background: linear-gradient(135deg, #f66314, #fc791a);
-}
-
-@keyframes sel-breathe {
-	0%,
-	100% {
-		box-shadow: 0 0 0 0 rgba(246, 99, 20, 0);
-	}
-	50% {
-		box-shadow: 0 0 26px 2px rgba(246, 99, 20, 0.28);
-	}
-}
-
-@keyframes badge-float {
-	0%,
-	100% {
-		transform: translateX(-50%) translateY(0);
-	}
-	50% {
-		transform: translateX(-50%) translateY(-3px);
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.landing .sel-frame,
-	.landing .sel-badge {
-		animation: none;
-	}
-}
-
-/* --- screenshot showcase ------------------------------------------------ */
-
-.landing .shot-window {
-	max-width: 50rem;
-	margin-inline: auto;
-	border-radius: 1rem;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	background: #171b22;
-	overflow: hidden;
-	box-shadow:
-		0 40px 90px -30px rgba(0, 0, 0, 0.85),
-		0 0 0 1px rgba(0, 0, 0, 0.4),
-		0 0 5rem -1rem rgba(246, 99, 20, 0.12);
-}
-
-.landing .shot-titlebar {
-	display: flex;
-	align-items: center;
-	gap: 0.45rem;
-	padding: 0.6rem 0.9rem;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.landing .shot-titlebar i {
-	width: 0.75rem;
-	height: 0.75rem;
-	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.12);
-}
-
-.landing .shot-titlebar i:nth-child(1) { background: #ff5f57; }
-.landing .shot-titlebar i:nth-child(2) { background: #febc2e; }
-.landing .shot-titlebar i:nth-child(3) { background: #28c840; }
-
-.landing .shot-titlebar .name {
-	margin-left: 0.75rem;
-	font-family: var(--sl-font-mono);
-	font-size: 0.75rem;
-	color: #8b929e;
-}
-
-.landing .shot-window img {
-	display: block;
-	width: 100%;
-	height: auto;
-}
-
-/* --- feature cards ------------------------------------------------------- */
-
-.landing .feature-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-	gap: 1rem;
-}
-
-.landing .feature-card {
-	background: rgba(255, 255, 255, 0.03);
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	border-radius: 1rem;
-	padding: 1.5rem 1.4rem;
-	transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.landing .feature-card:hover {
-	transform: translateY(-4px);
-	border-color: rgba(246, 99, 20, 0.45);
-	box-shadow: 0 18px 45px -20px rgba(246, 99, 20, 0.35);
-}
-
-.landing .feature-card .ic {
-	display: inline-flex;
-	width: 2.6rem;
-	height: 2.6rem;
-	align-items: center;
-	justify-content: center;
-	border-radius: 0.7rem;
-	background: rgba(246, 99, 20, 0.12);
-	border: 1px solid rgba(246, 99, 20, 0.3);
-	margin-bottom: 1rem;
-}
-
-.landing .feature-card .ic svg {
-	width: 1.4rem;
-	height: 1.4rem;
-	color: #fc7919;
-}
-
-.landing .feature-card h3 {
-	font-size: 1.02rem;
-	font-weight: 700;
-	margin: 0 0 0.5rem;
-}
-
-.landing .feature-card p {
-	font-size: 0.9rem;
-	line-height: 1.55;
-	color: #9aa1ad;
-	margin: 0;
-}
-
-/* --- stats strip --------------------------------------------------------- */
-
-.landing .stats {
-	border-top: 1px solid rgba(255, 255, 255, 0.06);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-	background: rgba(255, 255, 255, 0.015);
-}
-
-.landing .stats .section-inner {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 3rem;
-}
-
-.landing .stat {
-	text-align: center;
-	min-width: 10rem;
-}
-
-.landing .stat .n {
-	font-size: 2.2rem;
-	font-weight: 800;
-	letter-spacing: -0.02em;
-	background: linear-gradient(100deg, #f66314, #fc791a);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-}
-
-.landing .stat .l {
-	font-size: 0.85rem;
-	color: #9aa1ad;
-	margin-top: 0.25rem;
-}
-
-/* --- end cta ------------------------------------------------------------- */
-
-.landing .endcta {
-	text-align: center;
-	padding-bottom: 6rem;
-}
-
-.landing .endcta h2 {
-	font-size: 1.5rem;
-	font-weight: 700;
-	margin: 0 0 1.5rem;
-}
-
-/* ============================================================================
-   Landing-page theme fixes.
-   The site theme can be light, but the landing page is always dark. Two
-   problems this solves:
-   1. Starlight's light palette sets `--sl-color-white` to a near-black —
-      headings inside `.landing` would render black-on-dark, invisible.
-      Redefining the palette variables on `body:has(main.landing)` wins by
-      inheritance distance regardless of the active `data-theme`.
-   2. The splash layout renders a default page heading (`h1#_top`) above our
-      custom hero — the title is duplicated, so hide it there.
-   ========================================================================== */
-
+/* The site theme can be light, but the landing page is always dark.
+   Starlight's light palette sets `--sl-color-white` to a near-black —
+   headings inside `.landing` would render black-on-dark, invisible.
+   Redefining the palette variables on `body:has(main.landing)` wins by
+   inheritance distance regardless of the active `data-theme`. */
 body:has(main.landing) {
+	/* The landing page is always dark — say so natively too (scrollbars,
+	   form controls). */
+	color-scheme: dark;
+
 	--sl-color-white: hsl(0, 0%, 100%);
 	--sl-color-gray-1: hsl(224, 20%, 94%);
 	--sl-color-gray-2: hsl(224, 6%, 77%);
@@ -514,25 +49,25 @@ body:has(main.landing) {
 	--sl-color-text: var(--sl-color-gray-2);
 	--sl-color-text-accent: var(--sl-color-orange);
 	--sl-color-text-invert: var(--sl-color-orange-low);
-	--sl-color-bg: #0c0e12;
+	--sl-color-bg: #0a0b0f;
 	--sl-color-bg-nav: #101319;
 	--sl-color-bg-sidebar: var(--sl-color-gray-6);
 	--sl-color-bg-inline-code: rgba(246, 99, 20, 0.12);
 	--sl-color-bg-accent: var(--sl-color-orange);
 	--sl-color-hairline-light: rgba(255, 255, 255, 0.1);
 	--sl-color-hairline: var(--sl-color-gray-6);
-	--sl-color-hairline-shade: #0c0e12;
+	--sl-color-hairline-shade: #0a0b0f;
 
 	--sl-color-backdrop-overlay: hsla(223, 13%, 10%, 0.66);
 }
 
-/* The splash layout's fallback page heading duplicates our hero title. */
+/* The splash layout's fallback page heading duplicates the hero title. */
 body:has(main.landing) .content-panel > .sl-container > h1 {
 	display: none;
 }
 
-/* Neutralize Starlight's markdown-content styles inside the landing page:
-   inline code gets a branded tint instead of the theme's gray pill. */
+/* Inline code inside the landing page keeps a branded tint instead of the
+   theme's gray pill (e.g. `wlr-screencopy` in the Wayland card). */
 .landing .sl-markdown-content code {
 	background-color: rgba(246, 99, 20, 0.12);
 	color: #ffab76;
@@ -542,33 +77,15 @@ body:has(main.landing) .content-panel > .sl-container > h1 {
 	border-radius: 0.3rem;
 }
 
-.landing .install code {
+/* The install command renders as plain mono text, not an inline-code pill. */
+.landing .sl-markdown-content .install-bar code {
 	background: none;
 	color: #f5d9c6;
 	padding: 0;
 }
 
-/* Headings inherit the landing text colour, not the theme's. */
-.landing h1,
-.landing h2,
-.landing h3,
-.landing h4,
-.landing p,
-.landing li {
-	color: inherit;
-}
-
-/* CJK headlines wrap differently — keep the gradient line balanced. */
-.landing :lang(zh) .hero h1 {
-	font-size: clamp(1.9rem, 4.6vw, 2.9rem);
-}
-
-/* --- entrance --------------------------------------------------------------
-   No entrance animations on purpose. Chromium throttles animations for
-   off-viewport elements, so any entrance effect (JS observer or pure CSS)
-   freezes mid-flight in full-page screenshots, prerenders, and link
-   previews — big chunks of the page render blank. Static and reliable. */
-
-.landing .reveal {
-	/* no-op: class kept in markup for potential future use */
+/* Links inside the landing page are ours (.btn-*); prose link styling must
+   not leak blue underlines into them. */
+.landing .sl-markdown-content a {
+	text-decoration: none;
 }
