@@ -1,0 +1,72 @@
+/* The `.t-*` typography bridge — split from landing.css.
+
+   Starlight's prose styles (`.sl-markdown-content h2` — specificity
+   0,1,1) outrank single-class Tailwind utilities, so heading/type styles
+   live here under `.landing`-prefixed classes (0,2,0) instead. Tailwind
+   handles layout (grid/flex/spacing/position) on wrappers, where prose
+   has no say. */
+
+.landing .t-display {
+	margin-block: 0;
+	/* `auto`, not the Tailwind `mx-auto` utility: Starlight's prose margins
+	   (`.sl-markdown-content h1`, specificity 0,1,1) would outrank it. */
+	margin-inline: auto;
+	font-size: clamp(2.25rem, 5vw, 3.5rem);
+	font-weight: 740;
+	letter-spacing: -0.025em;
+	line-height: 1.08;
+	max-width: 46rem;
+	color: var(--color-fg);
+	text-wrap: balance;
+}
+
+/* CJK headlines wrap differently — keep lines balanced. */
+.landing :lang(zh) .t-display {
+	font-size: clamp(1.85rem, 4.4vw, 2.8rem);
+	letter-spacing: -0.01em;
+}
+
+.landing .t-h2 {
+	margin: 0;
+	font-size: clamp(1.5rem, 3vw, 2rem);
+	font-weight: 680;
+	letter-spacing: -0.018em;
+	line-height: 1.2;
+	color: var(--color-fg);
+	text-wrap: balance;
+}
+
+.landing .t-h3 {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 650;
+	letter-spacing: -0.008em;
+	color: var(--color-fg);
+}
+
+.landing .t-lead {
+	margin-block: 0;
+	margin-inline: auto;
+	font-size: 1.075rem;
+	line-height: 1.65;
+	color: var(--color-fg-mute);
+}
+
+.landing .t-body {
+	margin: 0;
+	font-size: 0.9rem;
+	line-height: 1.6;
+	color: var(--color-fg-mute);
+}
+
+/* --- reduced motion -------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.landing *,
+	.landing *::before,
+	.landing *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

@@ -16,10 +16,10 @@ import OcrDemo from '../../components/landing/OcrDemo';
 
 	<section class="landing-noise relative overflow-hidden">
 		<div class="landing-grid-bg absolute inset-0 [mask-image:linear-gradient(to_bottom,#000_30%,transparent_85%)]" />
-		<div class="absolute inset-x-0 top-0 h-[26rem] bg-[radial-gradient(52rem_22rem_at_50%_-4rem,rgb(246_99_20/0.16),transparent_70%)]" />
+		<div class="absolute inset-x-0 top-0 h-[26rem] bg-[radial-gradient(52rem_22rem_at_50%_-4rem,rgb(255_106_0/0.16),transparent_70%)]" />
 
 		<div class="relative mx-auto max-w-6xl px-6 pt-20 pb-14 text-center">
-			<img src="/shotori.svg" alt="Shotori logo" width="88" height="88" class="mx-auto mb-6 size-[5.5rem] drop-shadow-[0_0_28px_rgb(246_99_20/0.4)]" />
+			<img src="/shotori.svg" alt="Shotori logo" width="88" height="88" class="mx-auto mb-6 size-[5.5rem] drop-shadow-[0_0_28px_rgb(255_106_0/0.4)]" />
 			<h1 class="t-display mx-auto">The screenshot tool Wayland deserved</h1>
 			<p class="t-lead mx-auto mt-5 max-w-2xl"> Freeze the screen, drag a selection — it flows to the clipboard, a file, plain text, a pinned floating copy, or one long stitched image. Everything runs on your machine. </p>
 			<div class="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -60,10 +60,10 @@ import OcrDemo from '../../components/landing/OcrDemo';
 					</div>
 				</div>
 
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-2 md:row-span-2">
+				<div class="bento-card card-top-light flex flex-col rounded-2xl border border-line bg-surface p-4 md:col-span-2 md:row-span-2">
 					<h3 class="t-h3">Long screenshots</h3>
 					<p class="t-body mt-1.5"> Scroll it yourself and watch the stitched page grow in a live side preview — fixed bars that break the flow stop it safely. </p>
-					<div class="mt-4">
+					<div class="mt-4 min-h-52 flex-1 sm:min-h-56">
 						<StitchDemo client:visible />
 					</div>
 				</div>
