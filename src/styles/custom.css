@@ -7,18 +7,20 @@
    duplicate page heading.
    ========================================================================== */
 
-/* Undo Starlight's content padding so landing sections run edge to edge.
-   Measured panel padding: 16px horizontal below 1200px, 24px at ≥75rem
-   (the old blanket -1.5rem over-extended by 8px on narrow screens). */
+/* Pull the landing page out of Starlight's content column: the hero is a
+   full-bleed frozen desktop, so the main element itself must span the
+   viewport. Width + a 50% / 50vw inline margin is the only variant that
+   survives the panel's max-width and its responsive padding; `overflow-x:
+   clip` keeps the 100vw/scrollbar rounding from producing a scrollbar. */
 .landing {
-	margin: -2.5rem -1rem;
+	width: 100vw;
+	/* Pull the hero up under the sticky header: the content panel adds 24px
+	   and the main pane another 48px above the markdown body. */
+	margin-block: calc(-2.5rem - 2rem) -2.5rem;
+	/* `50%` resolves against the content column, not the viewport — combined
+	   with width:100vw this centres the band on screen. */
+	margin-inline: calc(50% - 50vw);
 	overflow-x: clip;
-}
-
-@media (min-width: 75rem) {
-	.landing {
-		margin: -2.5rem -1.5rem;
-	}
 }
 
 /* The site theme can be light, but the landing page is always dark.
@@ -30,6 +32,10 @@ body:has(main.landing) {
 	/* The landing page is always dark — say so natively too (scrollbars,
 	   form controls). */
 	color-scheme: dark;
+	/* `main.landing` is 100vw wide, which includes the classic scrollbar;
+	   clip the few pixels of overflow without creating a scroll container
+	   (so the sticky header keeps working). */
+	overflow-x: clip;
 
 	--sl-color-white: hsl(0, 0%, 100%);
 	--sl-color-gray-1: hsl(224, 20%, 94%);
@@ -81,6 +87,15 @@ body:has(main.landing) .content-panel > .sl-container > h1 {
 .landing .sl-markdown-content .install-bar code {
 	background: none;
 	color: #f5d9c6;
+	padding: 0;
+}
+
+/* The optional-tray hint is a sentence with a binary name in it, not a code
+   specimen — keep it inline and unstyled. */
+.landing .keybind-note code {
+	background: none;
+	border: none;
+	color: #c7ccd4;
 	padding: 0;
 }
 

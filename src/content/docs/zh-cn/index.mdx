@@ -1,12 +1,14 @@
 ---
-title: Shotori
+title: Wayland 截图工具
 description: Wayland 原生截图工具——选区、标注、贴图、长截图，需要文字时本地 OCR。
 template: splash
 ---
 
 import { Icon } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import screenshot from '../../../assets/selection-and-pins.png';
 import Boot from '../../../components/landing/boot.astro';
-import SelectionDemo from '../../../components/landing/SelectionDemo';
+import CaptureStage from '../../../components/landing/CaptureStage';
 import StitchDemo from '../../../components/landing/StitchDemo';
 import PinDemo from '../../../components/landing/PinDemo';
 import OcrDemo from '../../../components/landing/OcrDemo';
@@ -14,133 +16,223 @@ import OcrDemo from '../../../components/landing/OcrDemo';
 <main class="landing">
 	<Boot />
 
-	<section class="landing-noise relative overflow-hidden">
-		<div class="landing-grid-bg absolute inset-0 [mask-image:linear-gradient(to_bottom,#000_30%,transparent_85%)]" />
-		<div class="absolute inset-x-0 top-0 h-[26rem] bg-[radial-gradient(52rem_22rem_at_50%_-4rem,rgb(255_106_0/0.16),transparent_70%)]" />
-
-		<div class="relative mx-auto max-w-6xl px-6 pt-20 pb-14 text-center">
-			<img src="/shotori.svg" alt="Shotori 标志" width="88" height="88" class="mx-auto mb-6 size-[5.5rem] drop-shadow-[0_0_28px_rgb(255_106_0/0.4)]" />
-			<h1 class="t-display mx-auto">Wayland 值得拥有的截图工具</h1>
-			<p class="t-lead mx-auto mt-5 max-w-2xl"> 冻结屏幕、拖框选区——然后复制、保存、取字、贴图，或者把滚动内容拼成一张长图。 一切都在本机完成。 </p>
-			<div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-				<a class="btn btn-primary" href="getting-started/installation/">快速开始</a>
-				<a class="btn btn-ghost" href="https://github.com/shotori-screenshot/shotori">在 GitHub 上查看</a>
-			</div>
-			<div class="install-bar mt-6">
-				<span class="p">$</span>
-				<code>cargo install shotori</code>
-				<button class="copy" type="button" data-label="复制" data-done="已复制">复制</button>
+	<section class="hero">
+		<div class="wrap hero-inner">
+			<div class="hero-copy">
+				<h1 class="t-display">Wayland 截图，<br />终于像样了。</h1>
+				<div class="t-lead">
+					冻结屏幕，拖出一个选区——复制、标注、贴顶、拼成一张长图，
+					或者把文字取出来。全部在本机完成。
+				</div>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href="getting-started/installation/">
+						<Icon name="mdi:download" />
+						安装 Shotori
+					</a>
+					<a
+						class="btn btn-quiet"
+						href="https://github.com/shotori-screenshot/shotori"
+					>
+						<Icon name="mdi:github" />
+						查看源码
+					</a>
+				</div>
+				<div class="install-bar hero-install">
+					<span class="p">$</span>
+					<code>cargo install shotori</code>
+					<button class="copy" type="button" data-label="复制" data-done="已复制">复制</button>
+				</div>
+				<div class="hero-note">
+					仅支持 Linux 与 <a href="getting-started/installation/#环境要求">wlroots 系 Wayland 合成器</a>。<br />
+					MIT 许可，pre-1.0，已经在日常使用。
+				</div>
 			</div>
 		</div>
 
-		<div class="relative mx-auto max-w-6xl px-6 pb-20">
-			<SelectionDemo client:visible />
+		<div class="hero-veil"></div>
+		<div class="hero-bloom"></div>
+		<div class="hero-visual">
+			<CaptureStage client:load />
 		</div>
 	</section>
 
-	<section class="border-t border-line">
-		<div class="mx-auto max-w-6xl px-6 py-20">
-			<h2 class="t-h2 text-center">一次框选，去向随心</h2>
-			<p class="t-body mx-auto mt-3 max-w-xl text-center"> 从选区到它要去的地方——全部本地运行，画完可继续编辑与撤销。 </p>
+	<section class="section shot-section">
+		<div class="wrap">
+			<div class="shot-head">
+				<div class="section-head">
+					<h2 class="t-h2">整个应用，就一个手势。</h2>
+					<div class="t-body">
+						没有主窗口，没有工程文件，也没有需要翻找的托盘图标。
+						所有屏幕先冻结，拖出选区，工具栏自己来到手边。
+					</div>
+				</div>
+				<div class="shot-reading">
+					<div class="t-body">
+						选区手柄、标注工具、置顶贴图，以及会自己拼接的长截图——
+						全都在同一层覆盖界面里。这是真实截图，不是效果图。
+					</div>
+				</div>
+			</div>
 
-			<div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-6">
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-4 md:row-span-2">
-					<div class="overflow-hidden rounded-lg border border-line">
-						<div class="flex items-center gap-1.5 border-b border-line bg-surface-2 px-3 py-2">
-							<i class="size-2.5 rounded-full bg-[#ff5f57]"></i>
-							<i class="size-2.5 rounded-full bg-[#febc2e]"></i>
-							<i class="size-2.5 rounded-full bg-[#28c840]"></i>
-							<span class="ml-2 font-mono text-xs text-fg-mute" translate="no">shotori — 选区与贴图</span>
+			<figure class="shot-frame">
+				<Image
+					src={screenshot}
+					alt="Shotori——桌面上的一块选区与标注工具栏，以及两张悬浮其上的贴图"
+					widths={[640, 960, 1401]}
+					sizes="(min-width: 1184px) 1184px, 100vw"
+					format="webp"
+					quality={84}
+					loading="eager"
+				/>
+				<span class="shot-mark"></span>
+			</figure>
+			<div class="shot-meta">
+				<div class="t-small">
+					选区、标注工具栏，以及两张悬浮在 niri 桌面上的贴图。真实截图，不是效果图。
+				</div>
+				<span class="t-mono">1401 × 702 · niri</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap feature-row">
+			<div class="feature-copy">
+				<h2 class="t-h2">长页面，<br />一张图。</h2>
+				<div class="t-body">
+					框住会滚动的那块区域，然后自己滚。Shotori 会把每一次滚动
+					拼成一张长图，在侧边面板里实时长出来。
+				</div>
+				<div class="t-body">
+					遇到固定栏或正在播放的视频导致拼接断裂时，会话会安全停止，
+					已经拍到的部分原样保留。
+				</div>
+				<div class="t-small feature-note">
+					你滚，它拼——所以那些屏蔽模拟滚轮的应用也能正常用。
+				</div>
+			</div>
+			<div class="feature-panel">
+				<div class="panel-label">
+					<span class="live">长截图</span>
+					<span class="hint">实时预览</span>
+				</div>
+				<StitchDemo client:visible />
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap two-up">
+			<article>
+				<h2 class="t-h3">贴上去，一直看得见。</h2>
+				<div class="t-body">
+					把任意选区钉成一张置顶图片。拖到另一块屏幕、滚轮缩放，
+					用完随手关掉；截图界面关闭后它依然在。
+				</div>
+				<div class="demo-slot">
+					<PinDemo client:visible />
+				</div>
+			</article>
+
+			<article>
+				<h2 class="t-h3">把文字拿出来。</h2>
+				<div class="t-body">
+					选一段话、一条报错、一帧暂停的视频，Shotori 在本机识别完
+					直接放进剪贴板。31 MB 模型只下一次：不要账号，不上传。
+				</div>
+				<div class="demo-slot">
+					<OcrDemo client:visible />
+				</div>
+			</article>
+		</div>
+	</section>
+
+	<section class="privacy">
+		<div class="wrap">
+			<div>
+				<h2 class="t-h2">你的屏幕，<br />不关我们的事。</h2>
+				<div class="t-body">
+					没有账号，没有遥测，没有云端 OCR。Shotori 只和你的合成器
+					说话，不和服务器说话。
+				</div>
+			</div>
+			<dl class="privacy-facts">
+				<div>
+					<dt class="t-stat">0</dt>
+					<dd>上传的屏幕数据，永远</dd>
+				</div>
+				<div>
+					<dt class="t-stat">~31 MB</dt>
+					<dd>OCR 模型，只下载一次</dd>
+				</div>
+				<div>
+					<dt class="t-stat">100%</dt>
+					<dd>推理在本机完成</dd>
+				</div>
+			</dl>
+		</div>
+	</section>
+
+	<section class="section install-section">
+		<div class="wrap">
+			<div class="install-panel">
+				<div class="install-copy">
+					<h2 class="t-h2">给它一个快捷键。</h2>
+					<div class="t-body">
+						装好二进制，绑到你顺手的那颗键上，然后忘掉它——
+						直到你按下它。
+					</div>
+					<div class="install-commands">
+						<div class="install-bar">
+							<span class="p">$</span>
+							<code>cargo install shotori</code>
+							<button class="copy" type="button" data-label="复制" data-done="已复制">复制</button>
 						</div>
-						<img src="/selection-and-pins.png" alt="Shotori——选区与两张贴图悬浮在桌面上" width="1401" height="702" loading="lazy" class="block w-full" />
-					</div>
-					<div class="mt-4 px-1">
-						<h3 class="t-h3">为真实桌面而生</h3>
-						<p class="t-body mt-1.5"> 选区与两张贴图悬浮在桌面之上——混合缩放、旋转输出、跨屏选区都能正确处理。 </p>
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light flex flex-col rounded-2xl border border-line bg-surface p-4 md:col-span-2 md:row-span-2">
-					<h3 class="t-h3">长截图</h3>
-					<p class="t-body mt-1.5"> 自己滚动，看拼接结果在侧边实时预览中生长；固定栏等破坏拼接的内容会安全停止。 </p>
-					<div class="mt-4 min-h-52 flex-1 sm:min-h-56">
-						<StitchDemo client:visible />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-2">
-					<h3 class="t-h3">贴图</h3>
-					<p class="t-body mt-1.5"> 把选区钉成置顶浮动小窗，截图界面关闭后依然保留——可跨屏拖动、滚轮缩放。 </p>
-					<div class="mt-4">
-						<PinDemo client:visible />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-2">
-					<h3 class="t-h3">本地 OCR</h3>
-					<p class="t-body mt-1.5"> 文字识别在本机运行，首次使用下载一次模型，之后任何数据都不会离开你的电脑。 </p>
-					<div class="mt-4">
-						<OcrDemo client:visible />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light flex flex-col rounded-2xl border border-line bg-surface p-4 md:col-span-2">
-					<h3 class="t-h3">完整标注工具</h3>
-					<p class="t-body mt-1.5"> 矩形、箭头、序号、画笔、荧光笔、马赛克和文字——画完可继续编辑与撤销。 </p>
-					<div class="mt-auto grid grid-cols-7 gap-1 pt-4 text-fg-mute" aria-hidden="true">
-						<Icon name="mdi:vector-square" class="size-full" />
-						<Icon name="mdi:arrow-top-right" class="size-full" />
-						<Icon name="mdi:numeric-1-circle-outline" class="size-full" />
-						<Icon name="mdi:pencil" class="size-full" />
-						<Icon name="mdi:marker" class="size-full" />
-						<Icon name="mdi:grid" class="size-full" />
-						<Icon name="mdi:format-text" class="size-full" />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-6">
-					<div class="flex flex-wrap items-center gap-x-8 gap-y-4">
-						<div class="max-w-xl">
-							<h3 class="t-h3 flex items-center gap-2">
-								<Icon name="mdi:monitor" class="size-4 text-brand-hi" /> Wayland 原生
-							</h3>
-							<p class="t-body mt-1.5"> 基于 <code>wlr-screencopy</code> 与 layer-shell 构建，在 niri、sway、Hyprland 等 wlroots 系合成器上如鱼得水。 </p>
+						<div class="install-bar">
+							<span class="p">$</span>
+							<code>paru -S shotori</code>
+							<button class="copy" type="button" data-label="复制" data-done="已复制">复制</button>
 						</div>
-						<div class="flex flex-wrap gap-2">
-							{['niri', 'sway', 'Hyprland', 'river', 'labwc'].map((c) => (
-								<span class="rounded-md border border-line-hi bg-white/3 px-2.5 py-1 font-mono text-xs text-fg-mute">{c}</span>
+					</div>
+					<div class="install-alt">
+						也可以从 <a href="https://github.com/shotori-screenshot/shotori/releases">GitHub Releases</a>
+						直接下载。已在 niri 和 Hyprland 上测试；其他 wlroots 系
+						合成器欢迎试用，GNOME 和 X11 暂不支持。
+					</div>
+					<div class="install-cta">
+						<a class="btn btn-primary" href="getting-started/installation/">
+							阅读安装指南
+						</a>
+					</div>
+				</div>
+
+				<div>
+					<div class="keybind">
+						<div class="keybind-head">
+							<span class="t-mono">niri · config.kdl</span>
+							<span class="t-mono">keybind</span>
+						</div>
+						<pre><code><span class="k">Mod+Shift+S</span>{' { '}<span class="s">spawn</span>{' '}<span class="c">"shotori";</span>{' }'}</code></pre>
+						<div class="keybind-foot">
+							{['niri', 'sway', 'Hyprland', 'river', 'labwc', 'KWin', 'COSMIC'].map((c) => (
+								<span class="chip">{c}</span>
 							))}
 						</div>
 					</div>
+					<div class="t-small keybind-note">
+						也在 crates.io 和 AUR 上。<br />托盘图标可选：
+						<code> shotori tray</code>。
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
 
-	<section class="border-t border-line bg-white/1.5">
-		<div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-14 gap-y-8 px-6 py-12">
-			<div class="text-center">
-				<div class="font-mono text-2xl font-bold tracking-tight text-fg">~31 MB</div>
-				<div class="t-body mt-1">OCR 模型，仅首次下载</div>
-			</div>
-			<div class="text-center">
-				<div class="font-mono text-2xl font-bold tracking-tight text-fg">0</div>
-				<div class="t-body mt-1">离开你电脑的数据</div>
-			</div>
-			<div class="text-center">
-				<div class="font-mono text-2xl font-bold tracking-tight text-fg">100%</div>
-				<div class="t-body mt-1">本地运行，隐私默认</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="border-t border-line">
-		<div class="mx-auto max-w-6xl px-6 py-20 text-center">
-			<h2 class="t-h2">随时可用。</h2>
-			<div class="install-bar mt-6">
-				<span class="p">$</span>
-				<code>cargo install shotori</code>
-				<button class="copy" type="button" data-label="复制" data-done="已复制">复制</button>
+			<div class="install-foot">
+				<div class="t-small">
+					MIT 许可 · pre-1.0 · 用 Rust 和 gpui-kit 写成
+				</div>
+				<a class="t-small install-foot-link" href="https://github.com/shotori-screenshot/shotori">
+					github.com/shotori-screenshot/shotori
+				</a>
 			</div>
 		</div>
 	</section>

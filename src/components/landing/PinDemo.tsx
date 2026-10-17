@@ -3,6 +3,9 @@
 // (spring physics like the pin window), nudge with arrow keys, scroll to
 // zoom, and right-click for the app's context menu (Copy / Reset zoom /
 // Close) — Close really closes the pin, which respawns a beat later.
+//
+// The backdrop is a working editor, not a grey box: the pin is supposed to
+// read as a reference image you keep beside your code.
 
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -12,6 +15,7 @@ import {
 	useMotionValueEvent,
 	useReducedMotion,
 } from 'framer-motion';
+import pinImage from '../../assets/shot-detail.webp';
 
 const STEP = 14;
 const ZOOM_MIN = 0.5;
@@ -31,7 +35,7 @@ function PinMenu({
 		'flex h-8 items-center rounded-[2px] px-2 text-sm text-sh-bar-text hover:bg-sh-bar-hover';
 	return (
 		<div
-			className="absolute top-1/2 left-[calc(100%+2px)] z-10 flex -translate-y-1/2 flex-col gap-1 rounded-md border border-sh-bar-border bg-sh-bar p-1 min-w-[7rem] text-left shadow-[0_8px_24px_rgb(0_0_0/0.45)]"
+			className="absolute top-1/2 left-[calc(100%+6px)] z-10 hidden min-w-[7rem] -translate-y-1/2 flex-col gap-1 rounded-md border border-sh-bar-border bg-sh-bar p-1 text-left shadow-[0_8px_24px_rgb(0_0_0/0.45)] sm:flex"
 			onPointerDown={(e) => e.stopPropagation()}
 			onContextMenu={(e) => e.preventDefault()}
 		>
@@ -44,6 +48,46 @@ function PinMenu({
 			<button type="button" className={item} onClick={onClose}>
 				Close
 			</button>
+		</div>
+	);
+}
+
+/** A static editor scene behind the pin. */
+function EditorBackdrop() {
+	const rows: Array<[string, string, string]> = [
+		['c', 'pub fn', ' pin(&mut self, crop: Crop) -> Window {'],
+		['p', '    let', ' bounds = crop.pixels();'],
+		['p', '    self.spawn', '(bounds, PinOptions {'],
+		['p', '        always_on_top:', ' true,'],
+		['p', '        zoom:', ' 1.0,'],
+		['p', '    })'],
+		['p', '}'],
+	];
+	return (
+		<div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+			<div className="landing-grid-bg absolute inset-0 opacity-50" />
+			<div className="absolute inset-0 bg-[radial-gradient(70%_90%_at_20%_10%,rgb(255_106_0/0.08),transparent_65%)]" />
+			<div className="absolute inset-x-0 top-0 flex h-8 items-center gap-1.5 border-b border-line bg-[#0b0d12] px-3">
+				<i className="size-2 rounded-full bg-[#ff5f57]" />
+				<i className="size-2 rounded-full bg-[#febc2e]" />
+				<i className="size-2 rounded-full bg-[#28c840]" />
+				<span className="ml-2 rounded-[3px] bg-white/6 px-2 py-[3px] font-mono text-[9px] text-fg-mute">
+					pin.rs
+				</span>
+			</div>
+			<div className="absolute inset-x-0 top-8 bottom-0 p-3 font-mono text-[10px] leading-[1.85]">
+				{rows.map(([kind, a, b], i) => (
+					<div key={i} className="whitespace-pre">
+						<span className="mr-3 inline-block w-4 text-right text-white/18">
+							{i + 1}
+						</span>
+						<span className={kind === 'c' ? 'text-[#c792ea]' : 'text-fg/75'}>
+							{a}
+						</span>
+						<span className="text-[#6fd6c9]">{b}</span>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }
@@ -118,19 +162,18 @@ export default function PinDemo() {
 	return (
 		<div
 			ref={bounds}
-			className="relative h-44 overflow-hidden rounded-lg border border-line bg-ink-2"
+			className="relative h-[23rem] overflow-hidden rounded-lg border border-line bg-[#0a0c11] sm:h-[27rem]"
 		>
-			<div className="landing-grid-bg absolute inset-0 opacity-60" />
-			<div className="absolute inset-0 bg-[radial-gradient(70%_100%_at_30%_20%,rgb(255_106_0/0.07),transparent)]" />
+			<EditorBackdrop />
 
-			{/* centered by left/top so x/y stay pure pixel offsets for drag+nudge.
-			    overflow-hidden lives on the inner image box so the context
-			    menu can hang outside the pin without being clipped */}
+			{/* positioned by left/top so x/y stay pure pixel offsets for
+			    drag+nudge. overflow-hidden lives on the inner image box so the
+			    context menu can hang outside the pin without being clipped */}
 			<motion.div
 				ref={pinRef}
-				className="absolute top-[calc(50%-3.25rem)] left-[calc(42%-3.5rem)] h-26 w-28 cursor-grab border border-sh-accent shadow-[0_0_6px_rgb(255_106_0/0.55),0_0_24px_rgb(255_106_0/0.28)] active:cursor-grabbing focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#ff6a00]"
+				className="absolute top-[23%] left-[12%] aspect-4/3 w-[52%] max-w-[270px] cursor-grab border border-sh-accent shadow-[0_0_7px_rgb(255_106_0/0.6),0_0_28px_rgb(255_106_0/0.3)] active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff6a00]"
 				style={{ x, y }}
-				role="img"
+				role="group"
 				aria-label="Pinned floating screenshot — drag it, scroll to zoom, focus and use arrow keys, right-click for its menu"
 				tabIndex={0}
 				onKeyDown={nudge}
@@ -145,19 +188,19 @@ export default function PinDemo() {
 				whileDrag={
 					reduced
 						? undefined
-						: { boxShadow: '0 0 10px rgb(255 106 0 / 0.8), 0 0 34px rgb(255 106 0 / 0.4)' }
+						: { boxShadow: '0 0 12px rgb(255 106 0 / 0.85), 0 0 40px rgb(255 106 0 / 0.45)' }
 				}
 				animate={gone ? { opacity: 0, scale: 0.92 } : { opacity: 1, scale: 1 }}
 				transition={{ duration: 0.25 }}
 			>
 				<div className="h-full w-full overflow-hidden">
 					<motion.img
-						src="/selection-and-pins.png"
+						src={pinImage.src}
 						alt=""
-						width="1401"
-						height="702"
+						width="900"
+						height="682"
 						draggable={false}
-						className="h-full w-full object-cover object-[38%_30%] select-none"
+						className="h-full w-full object-cover object-[26%_34%] select-none"
 						style={{ scale: zoom }}
 					/>
 				</div>
@@ -171,15 +214,15 @@ export default function PinDemo() {
 
 			{/* OSD-style toast for Copy */}
 			{toast && (
-				<div className="absolute top-2 right-2 z-10 flex items-center gap-2 rounded-lg border border-sh-accent bg-sh-chip px-3 py-1.5 text-xs text-sh-hint">
+				<div className="absolute top-3 right-3 z-10 flex items-center gap-2 rounded-lg border border-sh-accent bg-sh-chip px-3 py-1.5 text-xs text-sh-hint">
 					Copied
 				</div>
 			)}
 
-			<span className="absolute bottom-2.5 left-3 font-mono text-[10px] text-fg-mute/70">
-				drag · right-click
+			<span className="pointer-events-none absolute top-10 left-4 font-mono text-[9px] text-fg-mute/60">
+				pin · drag, scroll to zoom
 			</span>
-			<span className="absolute right-3 bottom-2.5 font-mono text-[10px] text-fg-mute/70">
+			<span className="pointer-events-none absolute right-4 bottom-3 font-mono text-[9px] text-fg-mute/60">
 				{zoomLabel}
 			</span>
 		</div>

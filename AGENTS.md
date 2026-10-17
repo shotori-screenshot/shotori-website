@@ -13,7 +13,8 @@ Manage the background server with `astro dev stop`, `astro dev status`, `astro d
 - Package manager is **pnpm** (`pnpm install` / `pnpm dev` / `pnpm build`).
 - Landing page (`src/content/docs/index.mdx` + `zh-cn/index.mdx`): layout via
   **Tailwind 4** utilities + typography component classes in
-  `src/styles/landing.css`; animated demos are **React islands**
+  `src/styles/landing.css`; the hero is a live drag-to-select island
+  (`CaptureStage.tsx`, `client:load`) and the feature demos are React islands
   (`src/components/landing/*.tsx`, `motion` library, `client:visible`).
   `landing.css` deliberately skips Tailwind preflight and is imported only by
   `src/components/landing/boot.astro`, so docs pages never load it. Starlight
@@ -22,7 +23,9 @@ Manage the background server with `astro dev stop`, `astro dev status`, `astro d
   `landing.css`, Tailwind only for layout on wrappers. Keep new landing
   animations freeze-safe (every frame complete; no opacity-0 entrances —
   Chromium throttles off-viewport animations and full-page screenshots render
-  blank chunks).
+  blank chunks). Wrap landing prose in `<div class="t-*">`, not `<p class="t-*">`:
+  MDX re-parses block text into a nested `<p>` and the browser drops the outer
+  class; the reset for that nested paragraph lives in `type.css`.
 - Bilingual site: English content lives at `src/content/docs/` (root locale),
   简体中文 at `src/content/docs/zh-cn/`. The two trees must stay in sync
   page-for-page — when you add or move a page, do it in both. Missing pages

@@ -1,12 +1,14 @@
 ---
-title: Shotori
+title: Wayland screenshot tool
 description: A Wayland-native screenshot tool — select, annotate, pin, long-capture scrolling pages, and read text with on-device OCR.
 template: splash
 ---
 
 import { Icon } from '@astrojs/starlight/components';
+import { Image } from 'astro:assets';
+import screenshot from '../../assets/selection-and-pins.png';
 import Boot from '../../components/landing/boot.astro';
-import SelectionDemo from '../../components/landing/SelectionDemo';
+import CaptureStage from '../../components/landing/CaptureStage';
 import StitchDemo from '../../components/landing/StitchDemo';
 import PinDemo from '../../components/landing/PinDemo';
 import OcrDemo from '../../components/landing/OcrDemo';
@@ -14,133 +16,231 @@ import OcrDemo from '../../components/landing/OcrDemo';
 <main class="landing">
 	<Boot />
 
-	<section class="landing-noise relative overflow-hidden">
-		<div class="landing-grid-bg absolute inset-0 [mask-image:linear-gradient(to_bottom,#000_30%,transparent_85%)]" />
-		<div class="absolute inset-x-0 top-0 h-[26rem] bg-[radial-gradient(52rem_22rem_at_50%_-4rem,rgb(255_106_0/0.16),transparent_70%)]" />
-
-		<div class="relative mx-auto max-w-6xl px-6 pt-20 pb-14 text-center">
-			<img src="/shotori.svg" alt="Shotori logo" width="88" height="88" class="mx-auto mb-6 size-[5.5rem] drop-shadow-[0_0_28px_rgb(255_106_0/0.4)]" />
-			<h1 class="t-display mx-auto">The screenshot tool Wayland deserved</h1>
-			<p class="t-lead mx-auto mt-5 max-w-2xl"> Freeze the screen, drag a selection — it flows to the clipboard, a file, plain text, a pinned floating copy, or one long stitched image. Everything runs on your machine. </p>
-			<div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-				<a class="btn btn-primary" href="getting-started/installation/">Get Started</a>
-				<a class="btn btn-ghost" href="https://github.com/shotori-screenshot/shotori">View on GitHub</a>
-			</div>
-			<div class="install-bar mt-6">
-				<span class="p">$</span>
-				<code>cargo install shotori</code>
-				<button class="copy" type="button" data-label="Copy" data-done="Copied!">Copy</button>
+	<section class="hero">
+		<div class="wrap hero-inner">
+			<div class="hero-copy">
+				<h1 class="t-display">Wayland screenshots,<br />finally done right.</h1>
+				<div class="t-lead">
+					Freeze the screen, drag a region — then copy it, annotate it,
+					pin it on top, stitch a long page, or pull the text out.
+					Everything happens on your machine.
+				</div>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href="getting-started/installation/">
+						<Icon name="mdi:download" />
+						Install Shotori
+					</a>
+					<a
+						class="btn btn-quiet"
+						href="https://github.com/shotori-screenshot/shotori"
+					>
+						<Icon name="mdi:github" />
+						Source on GitHub
+					</a>
+				</div>
+				<div class="install-bar hero-install">
+					<span class="p">$</span>
+					<code>cargo install shotori</code>
+					<button class="copy" type="button" data-label="Copy" data-done="Copied!">Copy</button>
+				</div>
+				<div class="hero-note">
+					Linux only, on a <a href="getting-started/installation/#requirements">wlroots-adjacent Wayland compositor</a>.
+					MIT licensed, pre-1.0, already in daily use.
+				</div>
 			</div>
 		</div>
 
-		<div class="relative mx-auto max-w-6xl px-6 pb-20">
-			<SelectionDemo client:visible />
+		<div class="hero-veil"></div>
+		<div class="hero-bloom"></div>
+		<div class="hero-visual">
+			<CaptureStage client:load />
 		</div>
 	</section>
 
-	<section class="border-t border-line">
-		<div class="mx-auto max-w-6xl px-6 py-20">
-			<h2 class="t-h2 text-center">One gesture, then anywhere</h2>
-			<p class="t-body mx-auto mt-3 max-w-xl text-center"> From the selection to wherever it needs to go — all local, all editable after the fact. </p>
+	<section class="section shot-section">
+		<div class="wrap">
+			<div class="shot-head">
+				<div class="section-head">
+					<h2 class="t-h2">The whole app is one gesture.</h2>
+					<div class="t-body">
+						No hub window, no project file, no dock icon to hunt for.
+						Every screen freezes, you drag a rectangle, and the
+						toolbar comes to you.
+					</div>
+				</div>
+				<div class="shot-reading">
+					<div class="t-body">
+						Selection handles, the annotation kit, pins that stay on
+						top, and a scroll capture that stitches itself — all in the
+						same overlay.
+					</div>
+				</div>
+			</div>
 
-			<div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-6">
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-4 md:row-span-2">
-					<div class="overflow-hidden rounded-lg border border-line">
-						<div class="flex items-center gap-1.5 border-b border-line bg-surface-2 px-3 py-2">
-							<i class="size-2.5 rounded-full bg-[#ff5f57]"></i>
-							<i class="size-2.5 rounded-full bg-[#febc2e]"></i>
-							<i class="size-2.5 rounded-full bg-[#28c840]"></i>
-							<span class="ml-2 font-mono text-xs text-fg-mute" translate="no">shotori — selection &amp; pins</span>
+			<figure class="shot-frame">
+				<Image
+					src={screenshot}
+					alt="Shotori — a region selection with an annotation toolbar over a desktop, and two pinned crops floating on top"
+					widths={[640, 960, 1401]}
+					sizes="(min-width: 1184px) 1184px, 100vw"
+					format="webp"
+					quality={84}
+					loading="eager"
+				/>
+				<span class="shot-mark"></span>
+			</figure>
+			<div class="shot-meta">
+				<div class="t-small">
+					Region selection, the annotation toolbar, and two pins over a
+					niri desktop. A real screenshot, not a mockup.
+				</div>
+				<span class="t-mono">1401 × 702 · niri</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap feature-row">
+			<div class="feature-copy">
+				<h2 class="t-h2">Long pages.<br />One image.</h2>
+				<div class="t-body">
+					Frame the part of the page that scrolls, then scroll it
+					yourself. Shotori stitches each pass into one long screenshot
+					and shows it growing in a side panel.
+				</div>
+				<div class="t-body">
+					If a fixed header or a playing video breaks the stitch, the
+					session stops cleanly and keeps exactly what it captured.
+				</div>
+				<div class="t-small feature-note">
+					You scroll, it stitches — so this works in apps that block
+					synthetic scroll events.
+				</div>
+			</div>
+			<div class="feature-panel">
+				<div class="panel-label">
+					<span class="live">long capture</span>
+					<span class="hint">live preview</span>
+				</div>
+				<StitchDemo client:visible />
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap two-up">
+			<article>
+				<h2 class="t-h3">Pin it above everything.</h2>
+				<div class="t-body">
+					Crop any selection into an always-on-top image. Drag it to
+					another monitor, scroll to zoom, close it when you're done. It
+					outlives the capture overlay.
+				</div>
+				<div class="demo-slot">
+					<PinDemo client:visible />
+				</div>
+			</article>
+
+			<article>
+				<h2 class="t-h3">Lift the text out.</h2>
+				<div class="t-body">
+					Select a paragraph, an error, a paused video. Shotori reads it
+					on-device and leaves it on your clipboard. One 31 MB model,
+					downloaded once — no account, no upload.
+				</div>
+				<div class="demo-slot">
+					<OcrDemo client:visible />
+				</div>
+			</article>
+		</div>
+	</section>
+
+	<section class="privacy">
+		<div class="wrap">
+			<div>
+				<h2 class="t-h2">Your screen is none of our business.</h2>
+				<div class="t-body">
+					No accounts, no telemetry, no cloud OCR. Shotori is a local
+					program that talks to your compositor, not to a server.
+				</div>
+			</div>
+			<dl class="privacy-facts">
+				<div>
+					<dt class="t-stat">0</dt>
+					<dd>bytes of your screen leave the machine</dd>
+				</div>
+				<div>
+					<dt class="t-stat">~31 MB</dt>
+					<dd>OCR model, downloaded once</dd>
+				</div>
+				<div>
+					<dt class="t-stat">100%</dt>
+					<dd>of recognition runs on-device</dd>
+				</div>
+			</dl>
+		</div>
+	</section>
+
+	<section class="section install-section">
+		<div class="wrap">
+			<div class="install-panel">
+				<div class="install-copy">
+					<h2 class="t-h2">Give it a key.</h2>
+					<div class="t-body">
+						Install the binary, bind it to the shortcut you already
+						reach for, and forget it exists until you press it.
+					</div>
+					<div class="install-commands">
+						<div class="install-bar">
+							<span class="p">$</span>
+							<code>cargo install shotori</code>
+							<button class="copy" type="button" data-label="Copy" data-done="Copied!">Copy</button>
 						</div>
-						<img src="/selection-and-pins.png" alt="Shotori — region selection with two pins floating over the desktop" width="1401" height="702" loading="lazy" class="block w-full" />
-					</div>
-					<div class="mt-4 px-1">
-						<h3 class="t-h3">At home on your desktop</h3>
-						<p class="t-body mt-1.5"> Region selection with two pins floating over the desktop — mixed scales, rotated outputs and selections spanning screens are handled. </p>
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light flex flex-col rounded-2xl border border-line bg-surface p-4 md:col-span-2 md:row-span-2">
-					<h3 class="t-h3">Long screenshots</h3>
-					<p class="t-body mt-1.5"> Scroll it yourself and watch the stitched page grow in a live side preview — fixed bars that break the flow stop it safely. </p>
-					<div class="mt-4 min-h-52 flex-1 sm:min-h-56">
-						<StitchDemo client:visible />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-2">
-					<h3 class="t-h3">Pin</h3>
-					<p class="t-body mt-1.5"> Crop a selection into an always-on-top floating image; drag it across screens, scroll to zoom. </p>
-					<div class="mt-4">
-						<PinDemo client:visible />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-2">
-					<h3 class="t-h3">Private OCR</h3>
-					<p class="t-body mt-1.5"> Text recognition runs on-device; after a one-time model download, nothing ever leaves your machine. </p>
-					<div class="mt-4">
-						<OcrDemo client:visible />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light flex flex-col rounded-2xl border border-line bg-surface p-4 md:col-span-2">
-					<h3 class="t-h3">Full annotation kit</h3>
-					<p class="t-body mt-1.5"> Shapes, arrows, numbered steps, freehand, highlighter, mosaic/blur and text — all editable and undoable. </p>
-					<div class="mt-auto grid grid-cols-7 gap-1 pt-4 text-fg-mute" aria-hidden="true">
-						<Icon name="mdi:vector-square" class="size-full" />
-						<Icon name="mdi:arrow-top-right" class="size-full" />
-						<Icon name="mdi:numeric-1-circle-outline" class="size-full" />
-						<Icon name="mdi:pencil" class="size-full" />
-						<Icon name="mdi:marker" class="size-full" />
-						<Icon name="mdi:grid" class="size-full" />
-						<Icon name="mdi:format-text" class="size-full" />
-					</div>
-				</div>
-
-				<div class="bento-card card-top-light rounded-2xl border border-line bg-surface p-4 md:col-span-6">
-					<div class="flex flex-wrap items-center gap-x-8 gap-y-4">
-						<div class="max-w-xl">
-							<h3 class="t-h3 flex items-center gap-2">
-								<Icon name="mdi:monitor" class="size-4 text-brand-hi" /> Wayland-native
-							</h3>
-							<p class="t-body mt-1.5"> Built on <code>wlr-screencopy</code> and layer-shell; at home on niri, sway, Hyprland and other wlroots-adjacent compositors. </p>
+						<div class="install-bar">
+							<span class="p">$</span>
+							<code>paru -S shotori</code>
+							<button class="copy" type="button" data-label="Copy" data-done="Copied!">Copy</button>
 						</div>
-						<div class="flex flex-wrap gap-2">
-							{['niri', 'sway', 'Hyprland', 'river', 'labwc'].map((c) => (
-								<span class="rounded-md border border-line-hi bg-white/3 px-2.5 py-1 font-mono text-xs text-fg-mute">{c}</span>
+					</div>
+					<div class="install-alt">
+						Or grab a binary from <a href="https://github.com/shotori-screenshot/shotori/releases">GitHub Releases</a>.
+						Tested on niri and Hyprland; other wlroots-adjacent compositors
+						are welcome. GNOME and X11 aren't supported.
+					</div>
+					<div class="install-cta">
+						<a class="btn btn-primary" href="getting-started/installation/">
+							Read the install guide
+						</a>
+					</div>
+				</div>
+
+				<div>
+					<div class="keybind">
+						<div class="keybind-head">
+							<span class="t-mono">niri · config.kdl</span>
+							<span class="t-mono">keybind</span>
+						</div>
+						<pre><code><span class="k">Mod+Shift+S</span>{' { '}<span class="s">spawn</span>{' '}<span class="c">"shotori";</span>{' }'}</code></pre>
+						<div class="keybind-foot">
+							{['niri', 'sway', 'Hyprland', 'river', 'labwc', 'KWin', 'COSMIC'].map((c) => (
+								<span class="chip">{c}</span>
 							))}
 						</div>
 					</div>
+					<div class="t-small keybind-note">
+						Also on crates.io and the AUR.<br />The tray icon is optional:
+						<code> shotori tray</code>.
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
 
-	<section class="border-t border-line bg-white/1.5">
-		<div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-14 gap-y-8 px-6 py-12">
-			<div class="text-center">
-				<div class="font-mono text-2xl font-bold tracking-tight text-fg">~31 MB</div>
-				<div class="t-body mt-1">OCR model, downloaded once</div>
-			</div>
-			<div class="text-center">
-				<div class="font-mono text-2xl font-bold tracking-tight text-fg">0</div>
-				<div class="t-body mt-1">bytes leaving your machine</div>
-			</div>
-			<div class="text-center">
-				<div class="font-mono text-2xl font-bold tracking-tight text-fg">100%</div>
-				<div class="t-body mt-1">local, private by default</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="border-t border-line">
-		<div class="mx-auto max-w-6xl px-6 py-20 text-center">
-			<h2 class="t-h2">Ready when you are.</h2>
-			<div class="install-bar mt-6">
-				<span class="p">$</span>
-				<code>cargo install shotori</code>
-				<button class="copy" type="button" data-label="Copy" data-done="Copied!">Copy</button>
+			<div class="install-foot">
+				<div class="t-small">
+					MIT licensed · pre-1.0 · built in Rust with gpui-kit
+				</div>
+				<a class="t-small install-foot-link" href="https://github.com/shotori-screenshot/shotori">
+					github.com/shotori-screenshot/shotori
+				</a>
 			</div>
 		</div>
 	</section>

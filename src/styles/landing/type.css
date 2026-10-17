@@ -1,65 +1,170 @@
-/* The `.t-*` typography bridge — split from landing.css.
+/* ============================================================================
+   Type bridge for the landing page.
 
-   Starlight's prose styles (`.sl-markdown-content h2` — specificity
-   0,1,1) outrank single-class Tailwind utilities, so heading/type styles
-   live here under `.landing`-prefixed classes (0,2,0) instead. Tailwind
-   handles layout (grid/flex/spacing/position) on wrappers, where prose
-   has no say. */
+   Starlight's prose styles (`.sl-markdown-content h2` — specificity 0,1,1)
+   outrank single-class Tailwind utilities, so heading/type styles live here
+   under `.landing`-prefixed classes (0,2,0) instead. Tailwind handles layout
+   (grid/flex/spacing/position) on wrappers, where prose has no say.
+
+   Display face: Bricolage Grotesque (variable wght/opsz/wdth, one 131 kB
+   Latin file, self-hosted). Body: Inter. Mono: JetBrains Mono — used only for
+   commands, dimensions and other machine-readable strings.
+   ========================================================================== */
+
+@font-face {
+	font-family: 'Bricolage Grotesque Variable';
+	src: url('../../assets/fonts/bricolage-grotesque-latin-standard-normal.woff2')
+		format('woff2');
+	font-weight: 200 800;
+	font-stretch: 75% 100%;
+	font-display: swap;
+}
+
+/* --- display ------------------------------------------------------------- */
 
 .landing .t-display {
-	margin-block: 0;
-	/* `auto`, not the Tailwind `mx-auto` utility: Starlight's prose margins
-	   (`.sl-markdown-content h1`, specificity 0,1,1) would outrank it. */
-	margin-inline: auto;
-	font-size: clamp(2.25rem, 5vw, 3.5rem);
-	font-weight: 740;
-	letter-spacing: -0.025em;
-	line-height: 1.08;
-	max-width: 46rem;
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: clamp(2.7rem, 6.2vw, 4.4rem);
+	font-weight: 700;
+	font-variation-settings: 'opsz' 96;
+	letter-spacing: -0.045em;
+	line-height: 0.96;
+	max-width: 13ch;
 	color: var(--color-fg);
 	text-wrap: balance;
 }
 
-/* CJK headlines wrap differently — keep lines balanced. */
+/* CJK display type needs its own rhythm: the fallback face has no optical
+   sizing, and 0.96 leading would clip ascenders. */
 .landing :lang(zh) .t-display {
-	font-size: clamp(1.85rem, 4.4vw, 2.8rem);
-	letter-spacing: -0.01em;
+	font-family: var(--font-sans);
+	font-size: clamp(2.1rem, 5.2vw, 3.9rem);
+	font-weight: 800;
+	letter-spacing: -0.035em;
+	line-height: 1.12;
+	max-width: 12em;
 }
 
 .landing .t-h2 {
 	margin: 0;
-	font-size: clamp(1.5rem, 3vw, 2rem);
-	font-weight: 680;
-	letter-spacing: -0.018em;
-	line-height: 1.2;
+	font-family: var(--font-display);
+	font-size: clamp(1.9rem, 3.8vw, 3.1rem);
+	font-weight: 650;
+	font-variation-settings: 'opsz' 64;
+	letter-spacing: -0.035em;
+	line-height: 1.02;
 	color: var(--color-fg);
 	text-wrap: balance;
 }
 
+.landing :lang(zh) .t-h2 {
+	font-family: var(--font-sans);
+	font-weight: 800;
+	letter-spacing: -0.025em;
+	line-height: 1.2;
+}
+
 .landing .t-h3 {
 	margin: 0;
-	font-size: 1rem;
-	font-weight: 650;
-	letter-spacing: -0.008em;
+	font-family: var(--font-display);
+	font-size: 1.45rem;
+	font-weight: 620;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
 	color: var(--color-fg);
 }
 
+.landing :lang(zh) .t-h3 {
+	font-family: var(--font-sans);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	font-size: 1.25rem;
+}
+
+/* --- body ---------------------------------------------------------------- */
+
 .landing .t-lead {
-	margin-block: 0;
-	margin-inline: auto;
-	font-size: 1.075rem;
+	margin: 0;
+	font-size: clamp(1rem, 1.25vw, 1.15rem);
 	line-height: 1.65;
 	color: var(--color-fg-mute);
+	max-width: 46ch;
+	text-wrap: pretty;
 }
 
 .landing .t-body {
 	margin: 0;
-	font-size: 0.9rem;
-	line-height: 1.6;
+	font-size: 0.95rem;
+	line-height: 1.65;
+	color: var(--color-fg-mute);
+	max-width: 56ch;
+	text-wrap: pretty;
+}
+
+.landing .t-small {
+	margin: 0;
+	font-size: 0.8125rem;
+	line-height: 1.5;
 	color: var(--color-fg-mute);
 }
 
-/* --- reduced motion -------------------------------------------------------- */
+/* Machine-readable strings: commands, dimensions, labels. */
+.landing .t-mono {
+	margin: 0;
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	line-height: 1.4;
+	color: var(--color-fg-mute);
+	font-variant-ligatures: none;
+}
+
+.landing .t-stat {
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: clamp(2.2rem, 3.6vw, 3rem);
+	font-weight: 600;
+	font-variation-settings: 'opsz' 64;
+	letter-spacing: -0.04em;
+	line-height: 1;
+	color: var(--color-fg);
+}
+
+/* MDX re-parses the text inside a JSX wrapper as its own paragraph. The
+   wrapper carries the designed type; the generated inner <p> must not bring
+   Starlight's font size or margins back. */
+.landing
+	:is(
+		.t-display,
+		.t-h2,
+		.t-h3,
+		.t-lead,
+		.t-body,
+		.t-small,
+		.t-mono,
+		.t-stat,
+		.hero-note,
+		.install-alt,
+		.install-foot-link
+	)
+	:is(p, div) {
+	margin: 0;
+	font: inherit;
+	color: inherit;
+	max-width: inherit;
+	text-wrap: inherit;
+}
+
+/* Anchors and buttons in the MDX often get their label wrapped in a <p> too. */
+.landing .btn :is(p, div) {
+	margin: 0;
+	font: inherit;
+	color: inherit;
+}
+
+/* --- reduced motion ------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
 	.landing *,

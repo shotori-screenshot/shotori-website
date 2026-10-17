@@ -6,13 +6,12 @@
    global reset never touches Starlight's docs pages.
 
    Page-level styles live in ./landing/*.css, split by responsibility:
-     - page.css  — page floor, backdrop motifs, prose-leak guards, buttons
-     - type.css  — the `.t-*` typography bridge over Starlight's prose
+     - page.css  — page floor, hero, sections, buttons, install & privacy bands
+     - type.css  — display face + the `.t-*` typography bridge over Starlight
 
-   Everything else (the app-chrome replicas in the demo islands) is styled
-   with Tailwind utilities directly in the React components, using the
-   `--color-sh-*` theme tokens below — the exact factory palette of the app
-   (Theme::dark in the main repo).
+   The demo islands are styled with Tailwind utilities directly in the React
+   components, using the `--color-sh-*` app-chrome tokens below — the exact
+   factory palette of the app (Theme::dark in the main repo).
    ========================================================================== */
 
 @layer theme, base, components, utilities;
@@ -25,18 +24,23 @@
 
 @theme {
 	/* ── page palette ─────────────────────────────────────────────────── */
-	--color-ink: #0a0b0f;
-	--color-ink-2: #0e1016;
-	--color-surface: #12151d;
-	--color-surface-2: #171b24;
+	--color-ink: #0a0b0d;
+	--color-ink-2: #0e1014;
+	--color-surface: #14171c;
+	--color-surface-2: #1a1e25;
+	--color-paper: #f2eee6;
 	/* Brand = the app's factory accent (theme.rs Theme::dark: 0xFF6A00). */
 	--color-brand: #ff6a00;
-	--color-brand-hi: #ff7d1f;
-	--color-brand-soft: #ffab76;
-	--color-fg: #e8eaef;
-	--color-fg-mute: #9aa1ad;
+	--color-brand-hi: #ff8a33;
+	--color-brand-soft: #ffc09a;
+	--color-fg: #edece8;
+	--color-fg-mute: #9ba0a8;
 	--color-line: rgb(255 255 255 / 0.08);
-	--color-line-hi: rgb(255 255 255 / 0.14);
+	--color-line-hi: rgb(255 255 255 / 0.16);
+	/* Two secondary hues pulled from the product screenshot — used only as
+	   tiny state colours (live dots, viewport marks), never as decoration. */
+	--color-teal: #6fd6c9;
+	--color-rose: #f2a9bb;
 
 	/* ── shotori app chrome (Theme::dark, the factory palette) ──────────
 	   Used by the demo islands' Tailwind utilities:
@@ -51,6 +55,8 @@
 	--color-sh-hint: #aaaaaa;
 	--color-sh-btn-text: #eeeeee;
 
+	--font-display: 'Bricolage Grotesque Variable', 'Inter Variable',
+		ui-sans-serif, system-ui, sans-serif;
 	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo,
 		monospace;
